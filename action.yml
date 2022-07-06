@@ -1,0 +1,12 @@
+# @format
+
+name: 'test one create issues'
+description: 'test create issues'
+inputs:
+  repoURL:
+    description: 'repo'
+    default: ${{github.repositoryUrl}}
+    required: false
+runs:
+  using: 'node16'
+  main: 'scripts/index.mjs'

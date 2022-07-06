@@ -1,0 +1,36 @@
+# @format
+
+name: GitHub Classroom Workflow
+
+on: [push]
+
+permissions:
+  checks: write
+  actions: read
+  contents: read
+
+jobs:
+  build:
+    name: Autograding
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: set node env
+        uses: actions/setup-node@v3.0.0
+        with:
+          node-version: '16.x'
+      - name: install
+        run: npm install
+      - name: create issues
+        uses: ./
+      - name: Pushes test file
+        uses: dmnemec/copy_file_to_another_repo_action@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.ACTION_ACCESS }}
+        with:
+          source_file: ${{github.actor}}_test.json
+          destination_repo: 'os2edu/autograding-frontent'
+          destination_folder: 'src/data'
+          user_email: 'zyj17715640603@gmail.com'
+          user_name: 'Jack-Zhang-1314'
+          commit_message: 'A custom message for the commit'
