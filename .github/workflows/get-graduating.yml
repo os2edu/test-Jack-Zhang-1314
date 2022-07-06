@@ -28,7 +28,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.ACTION_ACCESS }}
         with:
-          source_file: ${{github.actor}}_test.json
+          source_file: ${{github.actor}}_message.json
           destination_repo: 'os2edu/autograding-frontent'
           destination_folder: 'src/data'
           user_email: 'zyj17715640603@gmail.com'
