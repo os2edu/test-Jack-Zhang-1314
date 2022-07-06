@@ -25,6 +25,6 @@ message.assignment = {
 }
 console.log(message)
 
-const jsonFile = `${message.repoOwner}_test.json`
+const jsonFile = `${message.repoOwner}_message.json`
 
 await fs.writeFile(jsonFile, JSON.stringify(message))
