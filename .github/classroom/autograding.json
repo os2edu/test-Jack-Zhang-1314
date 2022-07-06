@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {
+      "name": "test_action",
+      "setup": "",
+      "run": "echo \"not bad\"",
+      "input": "not bad",
+      "output": "not bad",
+      "comparison": "included",
+      "timeout": 10,
+      "points": null
+    }
+  ]
+}
