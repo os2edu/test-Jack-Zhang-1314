@@ -10,18 +10,22 @@ const octokit = new Octokit({
   auth: token,
 })
 
-const res = await octokit.request('GET /repos/{owner}/{repo}/actions/workflows', {
-  owner: 'os2edu',
-  repo: 'test-Jack-Zhang-1314'
-})
+// const res = await octokit.request('GET /repos/{owner}/{repo}/actions/workflows', {
+//   owner: 'os2edu',
+//   repo: 'test-Jack-Zhang-1314'
+// })
 // console.log(res.data.workflows)
-await fs.writeFile("workflows.json", JSON.stringify(res.data.workflows, null, 2))
+// await fs.writeFile("workflows.json", JSON.stringify(res.data.workflows, null, 2))
 // console.log(dayjs(res.data.workflows[0].created_at).format("YYYY-MM-DD HH:mm:ss"))
 
+const repoName = process.env["GITHUB_REPOSITORY"] ?? "os2edu/test-Jack-Zhang-1314"
+
+
 const runner = await octokit.request('GET /repos/{owner}/{repo}/actions/runs', {
-  owner: 'os2edu',
-  repo: 'test-Jack-Zhang-1314'
+  owner: repoName.split("/")[0],
+  repo: repoName.split("/")[1],
 })
+
 
 // 最先完成的 classroom action
 const classOne = runner.data.workflow_runs
@@ -38,10 +42,10 @@ const message = {
   id: v1().split("-")[0],
   repoOwner: process.env["GITHUB_ACTOR"],
   repoURL: getInput("repoURL"),
-  repoName: process.env["GITHUB_REPOSITORY"],
+  repoName,
   submitAt: dayjs(classLast.created_at).format("YYYY-MM-DD HH:mm:ss"),
   updateAt: dayjs(classOne?.updated_at ?? classLast.updated_at).format("YYYY-MM-DD HH:mm:ss"),
-  passed: classOne.conclusion
+  passed: classOne?.conclusion ?? "failure"
 }
 
 const resReg = message.repoName?.replace(/.*\/(.*?)\-.*/g, "$1")

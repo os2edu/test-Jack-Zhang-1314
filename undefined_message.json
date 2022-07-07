@@ -1,10 +1,13 @@
 {
-  "id": "4996b350",
+  "id": "161171d0",
   "repoURL": "",
-  "submitAt": "2022-07-07 08:11:40",
-  "updateAt": "2022-07-07 08:11:55",
-  "passed": "failure",
+  "repoName": "os2edu/test-Jack-Zhang-1314",
+  "submitAt": "2022-07-07 01:33:45",
+  "updateAt": "2022-07-07 08:43:46",
+  "passed": "success",
   "assignment": {
-    "id": "49970170"
+    "id": "1611e700",
+    "title": "test",
+    "description": "test"
   }
 }
