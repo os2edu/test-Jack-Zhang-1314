@@ -31,17 +31,19 @@ const classOne = runner.data.workflow_runs.find(item => item.path === ".github/w
 await fs.writeFile("test.json", JSON.stringify(runner?.data, null, 2))
 
 const message = {
-  id: v1(),
+  id: v1().split("-")[0],
   repoOwner: process.env["GITHUB_ACTOR"],
-  repoURL: getInput("repoURL")
+  repoURL: getInput("repoURL"),
+  repoName: process.env["GITHUB_REPOSITORY"],
+  submitAt: dayjs(classOne.created_at).format("YYYY-MM-DD HH:mm:ss"),
+  updateAt: dayjs(classOne.updated_at).format("YYYY-MM-DD HH:mm:ss"),
+  passed: classOne.conclusion
 }
 
-message.repoName = process.env["GITHUB_REPOSITORY"]
-message.submitAt = dayjs(classOne.created_at).format("YYYY-MM-DD HH:mm:ss")
-message.updateAt = dayjs(classOne.updated_at).format("YYYY-MM-DD HH:mm:ss")
 const resReg = message.repoName?.replace(/.*\/(.*?)\-.*/g, "$1")
 
 message.assignment = {
+  id: v1().split("-")[0],
   title: resReg,
   description: resReg
 }

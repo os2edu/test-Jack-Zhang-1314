@@ -1,7 +1,10 @@
 {
-  "id": "3ccd30f0-fd89-11ec-b817-b3739726a96c",
+  "id": "4996b350",
   "repoURL": "",
-  "submitAt": "2022-07-07 07:55:29",
-  "updateAt": "2022-07-07 07:55:43",
-  "assignment": {}
+  "submitAt": "2022-07-07 08:11:40",
+  "updateAt": "2022-07-07 08:11:55",
+  "passed": "failure",
+  "assignment": {
+    "id": "49970170"
+  }
 }
