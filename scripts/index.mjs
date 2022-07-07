@@ -28,7 +28,7 @@ const classOne = runner.data.workflow_runs
   .filter(item => item.path === ".github/workflows/classroom.yml")
   .find(item => item.conclusion === "success")
 
-const classLast = runnrt.data.workflow_runs[runner.data.workflow_runs.length - 1]
+const classLast = runner.data.workflow_runs[runner.data.workflow_runs.length - 1]
 
 // console.log(classOne)
 
