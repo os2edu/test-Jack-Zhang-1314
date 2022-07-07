@@ -41,6 +41,10 @@ await fs.writeFile("test.json", JSON.stringify(runner?.data, null, 2))
 //commmits total
 let count
 
+await exec(`git clone https://github.com/${repoName}.git`)
+
+await exec(`cd ${repoName.split("/")[1]}`)
+
 await exec("git", ["rev-list", "HEAD", "--count"], {
   listeners: {
     stdout: (data) => count = data.toString(),
