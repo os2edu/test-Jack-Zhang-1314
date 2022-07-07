@@ -2,6 +2,7 @@ import * as fs from "fs/promises"
 import dayjs from "dayjs"
 import { v1 } from "uuid"
 import { getInput } from "@actions/core"
+import { exec } from "@actions/exec"
 import { Octokit } from "@octokit/core"
 
 const token = getInput("token") || process.env["GITHUB_TOKEN"]
@@ -45,7 +46,8 @@ const message = {
   repoName,
   submitAt: dayjs(classLast.created_at).format("YYYY-MM-DD HH:mm:ss"),
   updateAt: dayjs(classOne?.updated_at ?? classLast.updated_at).format("YYYY-MM-DD HH:mm:ss"),
-  passed: classOne?.conclusion ?? "failure"
+  passed: classOne?.conclusion ?? "failure",
+  commitsCount: exec("git rev-list HEAD --count"),
 }
 
 const resReg = message.repoName?.replace(/.*\/(.*?)\-.*/g, "$1")

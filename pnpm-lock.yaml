@@ -2,12 +2,14 @@ lockfileVersion: 5.4
 
 specifiers:
   '@actions/core': ^1.9.0
+  '@actions/exec': ^1.1.1
   '@octokit/core': ^3.6.0
   dayjs: ^1.11.3
   uuid: ^8.3.2
 
 devDependencies:
   '@actions/core': 1.9.0
+  '@actions/exec': 1.1.1
   '@octokit/core': 3.6.0
   dayjs: 1.11.3
   uuid: 8.3.2
@@ -20,10 +22,20 @@ packages:
       '@actions/http-client': 2.0.1
     dev: true
 
+  /@actions/exec/1.1.1:
+    resolution: {integrity: sha512-+sCcHHbVdk93a0XT19ECtO/gIXoxvdsgQLzb2fE2/5sIZmWQuluYyjPQtrtTHdU1YzTZ7bAPN4sITq2xi1679w==}
+    dependencies:
+      '@actions/io': 1.1.2
+    dev: true
+
   /@actions/http-client/2.0.1:
     resolution: {integrity: sha512-PIXiMVtz6VvyaRsGY268qvj57hXQEpsYogYOu2nrQhlf+XCGmZstmuZBbAybUl1nQGnvS1k1eEsQ69ZoD7xlSw==}
     dependencies:
       tunnel: 0.0.6
+    dev: true
+
+  /@actions/io/1.1.2:
+    resolution: {integrity: sha512-d+RwPlMp+2qmBfeLYPLXuSRykDIFEwdTA0MMxzS9kh4kvP1ftrc/9fzy6pX6qAjthdXruHQ6/6kjT/DNo5ALuw==}
     dev: true
 
   /@octokit/auth-token/2.5.0:
