@@ -35,9 +35,18 @@ const classOne = runner.data.workflow_runs
 
 const classLast = runner.data.workflow_runs[runner.data.workflow_runs.length - 1]
 
-// console.log(classOne)
-
+//runner data
 await fs.writeFile("test.json", JSON.stringify(runner?.data, null, 2))
+
+//commmits total
+let count
+
+await exec("git", ["rev-list", "HEAD", "--count"], {
+  listeners: {
+    stdout: (data) => count = data.toString(),
+    stderr: (data) => count = data.toString()
+  }
+})
 
 const message = {
   id: v1().split("-")[0],
@@ -47,7 +56,7 @@ const message = {
   submitAt: dayjs(classLast.created_at).format("YYYY-MM-DD HH:mm:ss"),
   updateAt: dayjs(classOne?.updated_at ?? classLast.updated_at).format("YYYY-MM-DD HH:mm:ss"),
   passed: classOne?.conclusion ?? "failure",
-  commitsCount: exec("git rev-list HEAD --count"),
+  commitsCount: count.trim(),
 }
 
 const resReg = message.repoName?.replace(/.*\/(.*?)\-.*/g, "$1")
@@ -58,8 +67,7 @@ message.assignment = {
   description: resReg
 }
 
-console.log(message)
-
+// students' information
 const jsonFile = `${message.repoOwner}_message.json`
 
 await fs.writeFile(jsonFile, JSON.stringify(message, null, 2))
