@@ -24,7 +24,11 @@ const runner = await octokit.request('GET /repos/{owner}/{repo}/actions/runs', {
 })
 
 // 最先完成的 classroom action
-const classOne = runner.data.workflow_runs.find(item => item.path === ".github/workflows/classroom.yml")
+const classOne = runner.data.workflow_runs
+  .filter(item => item.path === ".github/workflows/classroom.yml")
+  .find(item => item.conclusion === "success")
+
+const classLast = runnrt.data.workflow_runs[runner.data.workflow_runs.length - 1]
 
 // console.log(classOne)
 
@@ -35,8 +39,8 @@ const message = {
   repoOwner: process.env["GITHUB_ACTOR"],
   repoURL: getInput("repoURL"),
   repoName: process.env["GITHUB_REPOSITORY"],
-  submitAt: dayjs(classOne.created_at).format("YYYY-MM-DD HH:mm:ss"),
-  updateAt: dayjs(classOne.updated_at).format("YYYY-MM-DD HH:mm:ss"),
+  submitAt: dayjs(classLast.created_at).format("YYYY-MM-DD HH:mm:ss"),
+  updateAt: dayjs(classOne?.updated_at ?? classLast.updated_at).format("YYYY-MM-DD HH:mm:ss"),
   passed: classOne.conclusion
 }
 
