@@ -14,14 +14,14 @@ jobs:
     name: Autograding
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: set node env
         uses: actions/setup-node@v3.0.0
         with:
           node-version: '16.x'
       - name: install
         run: npm install
-      - name: create issues
+      - name: use javascript data
         uses: ./
       - name: Pushes test file
         uses: dmnemec/copy_file_to_another_repo_action@main
