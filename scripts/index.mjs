@@ -23,6 +23,11 @@ const runner = await octokit.request('GET /repos/{owner}/{repo}/actions/runs', {
   repo: 'test-Jack-Zhang-1314'
 })
 
+// 最先完成的 classroom action
+const classOne = runner.data.workflow_runs.find(item => item.path === ".github/workflows/classroom.yml")
+
+// console.log(classOne)
+
 await fs.writeFile("test.json", JSON.stringify(runner?.data, null, 2))
 
 const message = {
@@ -32,14 +37,16 @@ const message = {
 }
 
 message.repoName = process.env["GITHUB_REPOSITORY"]
-message.commitTime = dayjs().format("YYYY-MM-DD HH:mm:ss")
-
+message.submitAt = dayjs(classOne.created_at).format("YYYY-MM-DD HH:mm:ss")
+message.updateAt = dayjs(classOne.updated_at).format("YYYY-MM-DD HH:mm:ss")
 const resReg = message.repoName?.replace(/.*\/(.*?)\-.*/g, "$1")
 
 message.assignment = {
   title: resReg,
   description: resReg
 }
+
+console.log(message)
 
 const jsonFile = `${message.repoOwner}_message.json`
 
