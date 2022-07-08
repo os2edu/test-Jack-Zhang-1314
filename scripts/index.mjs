@@ -28,7 +28,7 @@ const classOne = runner.data.workflow_runs
 const classLast = runner.data.workflow_runs[runner.data.workflow_runs.length - 1]
 
 //runner data
-await fs.writeFile("test.json", JSON.stringify(runner?.data, null, 2))
+// await fs.writeFile("test.json", JSON.stringify(runner?.data, null, 2))
 
 //commmits total
 let count
