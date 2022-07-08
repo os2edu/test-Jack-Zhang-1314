@@ -11,14 +11,6 @@ const octokit = new Octokit({
   auth: token,
 })
 
-// const res = await octokit.request('GET /repos/{owner}/{repo}/actions/workflows', {
-//   owner: 'os2edu',
-//   repo: 'test-Jack-Zhang-1314'
-// })
-// console.log(res.data.workflows)
-// await fs.writeFile("workflows.json", JSON.stringify(res.data.workflows, null, 2))
-// console.log(dayjs(res.data.workflows[0].created_at).format("YYYY-MM-DD HH:mm:ss"))
-
 const repoName = process.env["GITHUB_REPOSITORY"] ?? "os2edu/test-Jack-Zhang-1314"
 
 
@@ -40,10 +32,6 @@ await fs.writeFile("test.json", JSON.stringify(runner?.data, null, 2))
 
 //commmits total
 let count
-
-// await exec(`git clone https://github.com/${repoName}.git`)
-
-// await exec(`cd ${repoName.split("/")[1]}`)
 
 await exec("git", ["rev-list", "HEAD", "--count"], {
   listeners: {
