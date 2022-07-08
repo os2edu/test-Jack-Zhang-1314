@@ -33,20 +33,25 @@ const classLast = runner.data.workflow_runs[runner.data.workflow_runs.length - 1
 //commmits total
 let count
 
-await exec("git", ["rev-list", "HEAD", "--count"], {
-  listeners: {
-    stdout: (data) => count = data.toString(),
-    stderr: (data) => count = data.toString()
-  }
-})
+try {
+  await exec("git", ["rev-list", "HEAD", "--count"], {
+    listeners: {
+      stdout: (data) => count = data.toString(),
+      stderr: (data) => count = data.toString()
+    }
+  })
+} catch (error) {
+  console.log(error)
+  console.log("failure")
+}
 
 const message = {
   id: v1().split("-")[0],
   repoOwner: process.env["GITHUB_ACTOR"],
   repoURL: getInput("repoURL"),
   repoName,
-  submitAt: dayjs(classLast.created_at).format("YYYY-MM-DD HH:mm:ss"),
-  updateAt: dayjs(classOne?.updated_at ?? classLast.updated_at).format("YYYY-MM-DD HH:mm:ss"),
+  submitAt: dayjs(classLast?.created_at ?? new Date()).format("YYYY-MM-DD HH:mm:ss"),
+  updateAt: dayjs(classOne?.updated_at ?? new Date()).format("YYYY-MM-DD HH:mm:ss"),
   passed: classOne?.conclusion ?? "failure",
   commitsCount: count.trim(),
 }
@@ -62,4 +67,9 @@ message.assignment = {
 // students' information
 const jsonFile = `${message.repoOwner}_message.json`
 
-await fs.writeFile(jsonFile, JSON.stringify(message, null, 2))
+try {
+  await fs.writeFile(jsonFile, JSON.stringify(message, null, 2))
+} catch (error) {
+  console.log(error)
+  console.log("failure")
+}
