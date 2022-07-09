@@ -28,7 +28,7 @@ jobs:
       - name: Pushes test file
         uses: dmnemec/copy_file_to_another_repo_action@main
         env:
-          API_TOKEN_GITHUB: ${{ secrets.ACTION_ACCESS }}
+          API_TOKEN_GITHUB: ${{ secrets.OS_2022 }}
         with:
           source_file: test_${{github.actor}}.json
           destination_repo: 'os2edu/autograding-frontent'
