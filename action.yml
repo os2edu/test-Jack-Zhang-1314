@@ -12,4 +12,4 @@ inputs:
     default: ${{github.token}}
 runs:
   using: 'node16'
-  main: 'scripts/index.mjs'
+  main: 'doc/index.mjs'

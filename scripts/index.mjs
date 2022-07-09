@@ -20,15 +20,18 @@ const runner = await octokit.request('GET /repos/{owner}/{repo}/actions/runs', {
 })
 
 
-// 最先完成的 classroom action
-const classOne = runner.data.workflow_runs
-  .filter(item => item.path === ".github/workflows/classroom.yml")
-  .find(item => item.conclusion === "success")
+const classTotal = runner.data.workflow_runs
+  .filter(item => item.path === ".github/workflows/classroom.yml" && item.conclusion === "success")
 
-const classLast = runner.data.workflow_runs[runner.data.workflow_runs.length - 1]
+// success:last classroom action
+const classLast = classTotal[0]
+
+// success:one classroom action
+const classOne = classTotal[classTotal.length - 1]
+
 
 //runner data
-// await fs.writeFile("test.json", JSON.stringify(runner?.data, null, 2))
+// await fs.writeFile("classSuccess.json", JSON.stringify({ classTotal }, null, 2))
 
 //commmits total
 let count
@@ -50,11 +53,15 @@ const message = {
   repoOwner: process.env["GITHUB_ACTOR"],
   repoURL: getInput("repoURL"),
   repoName,
-  submitAt: dayjs(classLast?.created_at ?? new Date()).format("YYYY-MM-DD HH:mm:ss"),
-  updateAt: dayjs(classOne?.updated_at ?? new Date()).format("YYYY-MM-DD HH:mm:ss"),
+  submitAt: dayjs(classOne?.created_at).format("YYYY-MM-DD HH:mm:ss"),
+  updateAt: dayjs(classLast?.updated_at ?? new Date()).format("YYYY-MM-DD HH:mm:ss"),
   passed: classOne?.conclusion ?? "failure",
   commitsCount: count.trim(),
 }
+
+// if (!classOne) {
+//   message.submitAt = null
+// }
 
 const resReg = message.repoName?.replace(/.*\/(.*?)\-.*/g, "$1")
 
@@ -64,8 +71,10 @@ message.assignment = {
   description: resReg
 }
 
+// console.log(message)
+
 // students' information
-const jsonFile = `${message.repoOwner}_message.json`
+const jsonFile = `${message.assignment.title}_${message.repoOwner}.json`
 
 try {
   await fs.writeFile(jsonFile, JSON.stringify(message, null, 2))

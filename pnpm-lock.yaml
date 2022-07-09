@@ -4,6 +4,7 @@ specifiers:
   '@actions/core': ^1.9.0
   '@actions/exec': ^1.1.1
   '@octokit/core': ^3.6.0
+  '@vercel/ncc': ^0.34.0
   dayjs: ^1.11.3
   uuid: ^8.3.2
 
@@ -11,6 +12,7 @@ devDependencies:
   '@actions/core': 1.9.0
   '@actions/exec': 1.1.1
   '@octokit/core': 3.6.0
+  '@vercel/ncc': 0.34.0
   dayjs: 1.11.3
   uuid: 8.3.2
 
@@ -105,6 +107,11 @@ packages:
     resolution: {integrity: sha512-Mq4N9sOAYCitTsBtDdRVrBE80lIrMBhL9Jbrw0d+j96BAzlq4V+GLHFJbHokEsVvO/9tQupQdoFdgVYhD2C8UQ==}
     dependencies:
       '@octokit/openapi-types': 12.8.0
+    dev: true
+
+  /@vercel/ncc/0.34.0:
+    resolution: {integrity: sha512-G9h5ZLBJ/V57Ou9vz5hI8pda/YQX5HQszCs3AmIus3XzsmRn/0Ptic5otD3xVST8QLKk7AMk7AqpsyQGN7MZ9A==}
+    hasBin: true
     dev: true
 
   /before-after-hook/2.2.2:
