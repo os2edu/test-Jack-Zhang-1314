@@ -17,12 +17,6 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      # - name: set node env
-      #   uses: actions/setup-node@v3.0.0
-      #   with:
-      #     node-version: '16.x'
-      # - name: install
-      #   run: npm install
       - name: use javascript data
         uses: ./
       - name: Pushes test file
@@ -30,7 +24,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.OS_2022 }}
         with:
-          source_file: test_${{github.actor}}.json
+          source_file: lab0_${{github.actor}}.json
           destination_repo: 'os2edu/autograding-frontent'
           destination_folder: 'src/data'
           user_email: 'zyj17715640603@gmail.com'
