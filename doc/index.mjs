@@ -9399,9 +9399,9 @@ const message = {
   commitsCount: count.trim(),
 }
 
-// if (!classOne) {
-//   message.submitAt = null
-// }
+if (!classOne) {
+  message.submitAt = null
+}
 
 const resReg = message.repoName?.replace(/.*\/(.*?)\-.*/g, "$1")
 
@@ -9414,7 +9414,7 @@ message.assignment = {
 // console.log(message)
 
 // students' information
-const jsonFile = `${message.assignment.title}_${message.repoOwner}.json`
+const jsonFile = `${message.repoOwner}_message.json`
 
 try {
   await fs_promises__WEBPACK_IMPORTED_MODULE_0__.writeFile(jsonFile, JSON.stringify(message, null, 2))
