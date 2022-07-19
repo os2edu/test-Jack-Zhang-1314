@@ -18,7 +18,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: LearningOS_2022
-        uses: Jack-Zhang-1314/OS_2022@v0.0.2
+        uses: ./scripts
       - name: Pushes test file
         uses: dmnemec/copy_file_to_another_repo_action@main
         env:
