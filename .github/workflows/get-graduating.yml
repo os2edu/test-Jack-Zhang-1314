@@ -17,22 +17,16 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      # - name: set node env
-      #   uses: actions/setup-node@v3.0.0
-      #   with:
-      #     node-version: '16.x'
-      # - name: install
-      #   run: npm install
-      - name: use javascript data
-        uses: ./
+      - name: LearningOS_2022
+        uses: Jack-Zhang-1314/OS_2022@v0.0.2
       - name: Pushes test file
         uses: dmnemec/copy_file_to_another_repo_action@main
         env:
           API_TOKEN_GITHUB: ${{ secrets.ACTION_ACCESS }}
         with:
-          source_file: ${{github.actor}}_message.json
-          destination_repo: 'os2edu/grading'
-          destination_folder: 'src/data'
+          source_file: test_${{github.actor}}.json
+          destination_repo: 'os2edu/data'
+          destination_folder: 'src/students'
           user_email: 'zyj17715640603@gmail.com'
           user_name: 'Jack-Zhang-1314'
           commit_message: 'A custom message for the commit'
