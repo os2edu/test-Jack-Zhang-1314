@@ -1,0 +1,11 @@
+# @format
+
+name: 'LearningOS_2022'
+description: 'use for learningOS'
+inputs:
+  token:
+    description: 'GITHUB TOKEN'
+    default: ${{github.token}}
+runs:
+  using: 'node16'
+  main: './index.mjs'
