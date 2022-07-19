@@ -7394,7 +7394,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("zlib");
 const token = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("token") || process.env["GITHUB_TOKEN"]
 
 const octokit = new _octokit_core__WEBPACK_IMPORTED_MODULE_1__/* .Octokit */ .v({
-  auth: "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",
+  auth: token,
 })
 
 const repoName = process.env["GITHUB_REPOSITORY"] ?? "os2edu/test-Jack-Zhang-1314"
