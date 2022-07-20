@@ -7383,7 +7383,9 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("zlib");
 /* harmony export */   "fD": () => (/* binding */ repoName),
 /* harmony export */   "Eq": () => (/* binding */ get_workflow_id),
 /* harmony export */   "Dl": () => (/* binding */ get_languages),
-/* harmony export */   "K9": () => (/* binding */ get_commits)
+/* harmony export */   "K9": () => (/* binding */ get_commits),
+/* harmony export */   "BS": () => (/* binding */ get_branch_total),
+/* harmony export */   "Ly": () => (/* binding */ getJobs)
 /* harmony export */ });
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(6953);
 /* harmony import */ var _octokit_core__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(3520);
@@ -7397,7 +7399,7 @@ const octokit = new _octokit_core__WEBPACK_IMPORTED_MODULE_1__/* .Octokit */ .v(
   auth: token,
 })
 
-const repoName = process.env["GITHUB_REPOSITORY"] ?? "os2edu/test-Jack-Zhang-1314"
+const repoName = process.env["GITHUB_REPOSITORY"] ?? "uCore-RV-64/ucore-rv-64-limingth"
 
 const owner = repoName.split("/")[0]
 const repo = repoName.split("/")[1]
@@ -7408,9 +7410,7 @@ const get_workflow_id = async () => {
       owner,
       repo,
     })
-    const successGraduading = runner.data.workflow_runs
-      .filter(item => item.path === ".github/workflows/classroom.yml" && item.conclusion === "success")
-    return successGraduading[0]
+    return runner.data.workflow_runs
   } catch (e) {
     console.log("get_workflow_id error: ", e)
   }
@@ -7434,9 +7434,41 @@ const get_commits = async () => {
       owner,
       repo
     })
-    return commits.data
+    return commits.data.map(commit => ({
+      html_url: commit.commit.url,
+      sha: commit.sha,
+      commit: {
+        author: commit.commit.author,
+        message: commit.commit.message
+      },
+    }))
   } catch (e) {
     console.log("get_commits error: ", e)
+  }
+}
+
+const get_branch_total = async () => {
+  try {
+    const branches = await octokit.request('GET /repos/{owner}/{repo}/branches', {
+      owner,
+      repo
+    })
+    return branches.data
+  } catch (e) {
+    console.log("branchTotal error: ", e)
+  }
+}
+
+const getJobs = async (runId) => {
+  try {
+    const jobs = await octokit.request('GET /repos/{owner}/{repo}/actions/runs/{run_id}/jobs', {
+      owner,
+      repo,
+      run_id: runId
+    })
+    return jobs.data
+  } catch (e) {
+    console.log("getJobs error: ", e)
   }
 }
 
@@ -7452,34 +7484,86 @@ __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependen
 
 
 
-const [successRun, languages, commitsTotal] = await Promise.all([(0,_data_mjs__WEBPACK_IMPORTED_MODULE_0__/* .get_workflow_id */ .Eq)(), (0,_data_mjs__WEBPACK_IMPORTED_MODULE_0__/* .get_languages */ .Dl)(), (0,_data_mjs__WEBPACK_IMPORTED_MODULE_0__/* .get_commits */ .K9)()])
-const commitsCount = commitsTotal.length
-const commits = commitsTotal[0]
-commits.length = commitsCount
-// lab name
-const repo = _data_mjs__WEBPACK_IMPORTED_MODULE_0__/* .repoName.split */ .fD.split("/")[1]
-const assignment = repo.slice(0, repo.length - 1 - (process.env["GITHUB_ACTOR"] ?? "Jack-Zhang-1314").length)
+const [workflow, languages, commitsTotal, branches] = await Promise.all([(0,_data_mjs__WEBPACK_IMPORTED_MODULE_0__/* .get_workflow_id */ .Eq)(), (0,_data_mjs__WEBPACK_IMPORTED_MODULE_0__/* .get_languages */ .Dl)(), (0,_data_mjs__WEBPACK_IMPORTED_MODULE_0__/* .get_commits */ .K9)(), (0,_data_mjs__WEBPACK_IMPORTED_MODULE_0__/* .get_branch_total */ .BS)()])
 
-const message = {
-  assignment: {
-    id: assignment,
-    title: assignment,
-    student_repositories: {
-      name: process.env["GITHUB_ACTOR"] ?? "Jack-Zhang-1314",
-      successRun,
-      commits,
-      languages,
+function workflow_runs() {
+  workflow.slice[0, 3]?.map(item => {
+    return {
+      id: item.id,
+      name: item.name,
+      event: item.event,
+      conclusion: item.conclusion,
+      status: item.status,
+      check_suite_id: item.check_suite_id,
+      head_branch: item.head_branch,
+      html_url: item.html_url,
+      run_started_at: item.started_at,
+      created_at: item.created_at,
     }
+  })
+}
+
+async function latestRunJobs() {
+  const run = await (0,_data_mjs__WEBPACK_IMPORTED_MODULE_0__/* .getJobs */ .Ly)(workflow[0].id)
+  return {
+    id: run.jobs[0].run_id,
+    name: run.jobs[0].name,
+    html_url: run.jobs[0].html_url,
+    conclusion: run.jobs[0].conclusion,
+    status: run.jobs[0].status,
+    completed_at: run.jobs[0].completed_at,
+    started_at: run.jobs[0].started_at,
+    steps: run.jobs[0].steps,
   }
 }
 
-// students' information
-const jsonFile = `./${assignment}_${process.env["GITHUB_ACTOR"] ?? "Jack-Zhang-1314"}.json`
-try {
-  await fs_promises__WEBPACK_IMPORTED_MODULE_1__.writeFile(jsonFile, JSON.stringify(message, null, 2))
-} catch (error) {
-  console.log(error + "failure")
-}
+const runJobs = await latestRunJobs()
+
+const workflows_msg = workflow.map(run => ({
+  branch: run.head_branch,
+  name: run.actor.login,
+  avatar: run.actor.avatar_url,
+  studentInfo: {
+    avatar_url: run.actor.avatar_url
+  },
+  repo: {
+    id: run.repository.id,
+    name: run.repository.name,
+    owner: {
+      login: run.repository.owner.login,
+      avatar_url: run.repository.owner.avatar_url,
+      html_url: run.repository.owner.html_url
+    },
+    private: run.repository.private,
+    html_url: run.repository.html_url,
+    pushed_at: "not found",
+    created_at: run.created_at,
+    updated_at: run.updated_at
+  },
+  repoUrl: run.repository.html_url,
+  commits: commitsTotal,
+  isScuccess: run.conclusion,
+  languages,
+  latestRunJobs: runJobs,
+  runs: workflow_runs(),
+  executeTime: "not found",
+  submission_timestamp: run.head_commit.timestamp,
+  points_awarded: run.conclusion === "success" ? 100 : 0,
+  points_available: run.conclusion === "success" ? 100 : 0,
+}))
+
+const assignments = branches
+  .map(branch => ({ branch: branch.name, title: branch.name, student_repositories: [] }))
+  .map(item => {
+    workflows_msg.forEach(workflow => {
+      if (workflow.branch === item.branch) {
+        item.student_repositories.push(workflow)
+      }
+    })
+    return item
+  })
+
+await fs_promises__WEBPACK_IMPORTED_MODULE_1__.writeFile(`${_data_mjs__WEBPACK_IMPORTED_MODULE_0__/* .repoName.split */ .fD.split("/")[1]}.json`, JSON.stringify(assignments, null, 2))
 __webpack_handle_async_dependencies__();
 }, 1);
 

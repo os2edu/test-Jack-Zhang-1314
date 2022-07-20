@@ -24,7 +24,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.ACTION_ACCESS }}
         with:
-          source_file: test_${{github.actor}}.json
+          source_file: ucore-rv-64-limingth.json
           destination_repo: 'os2edu/data'
           destination_folder: 'students'
           user_email: 'zyj17715640603@gmail.com'
