@@ -7,6 +7,9 @@ inputs:
     description: 'repo'
     default: ${{github.repositoryUrl}}
     required: false
+  token:
+    description: 'GITHUB TOKEN'
+    default: ${{github.token}}
 runs:
   using: 'node16'
-  main: 'scripts/index.mjs'
+  main: 'doc/index.mjs'

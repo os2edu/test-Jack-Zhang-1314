@@ -14,23 +14,19 @@ jobs:
     name: Autograding
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: set node env
-        uses: actions/setup-node@v3.0.0
+      - uses: actions/checkout@v3
         with:
-          node-version: '16.x'
-      - name: install
-        run: npm install
-      - name: create issues
-        uses: ./
+          fetch-depth: 0
+      - name: LearningOS_2022
+        uses: ./scripts
       - name: Pushes test file
         uses: dmnemec/copy_file_to_another_repo_action@main
         env:
           API_TOKEN_GITHUB: ${{ secrets.ACTION_ACCESS }}
         with:
-          source_file: ${{github.actor}}_test.json
-          destination_repo: 'os2edu/autograding-frontent'
-          destination_folder: 'src/data'
+          source_file: ${{github.actor}}.json
+          destination_repo: 'os2edu/data'
+          destination_folder: 'students'
           user_email: 'zyj17715640603@gmail.com'
           user_name: 'Jack-Zhang-1314'
           commit_message: 'A custom message for the commit'
