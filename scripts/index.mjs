@@ -7380,13 +7380,13 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("zlib");
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
 
 /* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
-/* harmony export */   "fD": () => (/* binding */ repoName),
 /* harmony export */   "Eq": () => (/* binding */ get_workflow_id),
 /* harmony export */   "Dl": () => (/* binding */ get_languages),
 /* harmony export */   "K9": () => (/* binding */ get_commits),
 /* harmony export */   "BS": () => (/* binding */ get_branch_total),
 /* harmony export */   "Ly": () => (/* binding */ getJobs)
 /* harmony export */ });
+/* unused harmony export repoName */
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(6953);
 /* harmony import */ var _octokit_core__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(3520);
 
@@ -7563,7 +7563,7 @@ const assignments = branches
     return item
   })
 
-await fs_promises__WEBPACK_IMPORTED_MODULE_1__.writeFile(`${_data_mjs__WEBPACK_IMPORTED_MODULE_0__/* .repoName.split */ .fD.split("/")[1]}.json`, JSON.stringify(assignments, null, 2))
+await fs_promises__WEBPACK_IMPORTED_MODULE_1__.writeFile(`${process.env["GITHUB_ACTOR"]}.json`, JSON.stringify(assignments, null, 2))
 __webpack_handle_async_dependencies__();
 }, 1);
 
